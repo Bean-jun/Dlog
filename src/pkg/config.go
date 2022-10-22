@@ -15,7 +15,9 @@ type mysql struct {
 }
 
 type server struct {
-	Port string `yaml:"port"`
+	SecretKey   string `yaml:"secretKey"`
+	Port        string `yaml:"port"`
+	TokenExpire int    `yaml:"token_expire"`
 }
 
 type Config struct {

@@ -1,9 +1,11 @@
 debug: true
 server:
+  secretKey: 0bd8f058bc3e97d203af4fcfd4094bf30e35ffe3e49f2e1b1faa1b45247a8e2f
   port: :9090
+  token_expire: 1800
 mysql:
-  username: root
-  password: root
+  username: dlog
+  password: dlog
   host: localhost
   port: 3306
-  dbname: db
+  dbname: dlog

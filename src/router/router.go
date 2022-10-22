@@ -1,6 +1,8 @@
 package router
 
 import (
+	"github.com/Bean-jun/Dlog/controller"
+	"github.com/Bean-jun/Dlog/middleware"
 	"github.com/Bean-jun/Dlog/pkg"
 	"github.com/gin-gonic/gin"
 )
@@ -19,12 +21,11 @@ func getRouter() *gin.Engine {
 func InitRouter() *gin.Engine {
 	e := getRouter()
 	// Add route content
-	e.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"status": true,
-			"msg":    "success",
-			"code":   200,
-		})
-	})
+	api := e.Group("/api/v1")
+	{
+		api.POST("/login", controller.Login)
+		api.POST("/register", controller.Register)
+		api.GET("/userinfo", middleware.Auth(), controller.GetUserInfo)
+	}
 	return e
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Bean-jun/Dlog/dao"
 	"log"
 
 	"github.com/Bean-jun/Dlog/pkg"
@@ -9,7 +10,7 @@ import (
 
 func InitEnv() {
 	pkg.InitConfig("conf.yaml")
-	// dao.InitDB()
+	dao.InitDB()
 }
 
 func main() {

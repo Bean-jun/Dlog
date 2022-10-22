@@ -3,14 +3,16 @@ package dao
 import (
 	"fmt"
 
+	"github.com/Bean-jun/Dlog/dao/entity"
 	"github.com/Bean-jun/Dlog/pkg"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var (
-	DB  *gorm.DB
-	err error
+	DB         *gorm.DB
+	err        error
+	entityList = []interface{}{&entity.UserEntity{}}
 )
 
 func InitDB() {
@@ -26,5 +28,8 @@ func InitDB() {
 		panic(err.Error())
 	}
 
-	DB.AutoMigrate()
+	err := DB.AutoMigrate(entityList...)
+	if err != nil {
+		panic(err)
+	}
 }
