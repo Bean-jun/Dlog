@@ -4,7 +4,7 @@ WRelease="Release.exe"
 LRelease="Release"
 ReleaseFolder="Release"
 DockerName="dlog"
-version=$(shell git log --format=%h)
+version=$(shell git log -1 --format=%h)
 
 all: build
 
