@@ -1,4 +1,4 @@
-.PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run
+.PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run init
 
 WRelease="Release.exe"
 LRelease="Release"
@@ -34,6 +34,10 @@ docker_stop:
 
 docker_clean:
 	docker rm -f ${DockerName}
+
+# 构建swagger
+init:
+	swag init
 
 run:
 	@go run .

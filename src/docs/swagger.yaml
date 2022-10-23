@@ -1,0 +1,48 @@
+basePath: /
+definitions:
+  utils.Response:
+    properties:
+      data: {}
+      msg:
+        type: string
+      status:
+        type: boolean
+    type: object
+host: 192.168.2.100:9090
+info:
+  contact:
+    email: 1342104001@qq.com
+    name: Bean-jun
+    url: https://github.com/Bean-jun
+  description: Dlog后端api服务
+  license:
+    name: MIT license
+  title: Dlog
+  version: "1.0"
+paths:
+  /api/v1/login:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 用户登录
+      parameters:
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      tags:
+      - Login
+swagger: "2.0"

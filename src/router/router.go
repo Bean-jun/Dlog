@@ -1,16 +1,21 @@
 package router
 
 import (
+	_ "github.com/Bean-jun/Dlog/docs"
+
 	"github.com/Bean-jun/Dlog/controller"
 	"github.com/Bean-jun/Dlog/middleware"
 	"github.com/Bean-jun/Dlog/pkg"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func getRouter() *gin.Engine {
 	var engine *gin.Engine
 	if pkg.Conf.Debug {
 		engine = gin.Default()
+		engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 		engine = gin.New()

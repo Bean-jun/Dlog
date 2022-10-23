@@ -49,6 +49,16 @@ TODO:
 3. 账号添加密码修改时间提醒
 4. 添加验证码功能
 */
+
+// @Schemes
+// @Description 用户登录
+// @Tags Login
+// @Accept mpfd
+// @Produce json
+// @Param   username     formData    string     true  "Username"
+// @Param   password     formData    string     true  "Password"
+// @Success 200 {object}  utils.Response
+// @Router /api/v1/login [post]
 func Login(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
