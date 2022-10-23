@@ -25,27 +25,19 @@ func Register(c *gin.Context) {
 	userService := services.ImplUser(&services.UserService{})
 	u, msg := userService.AddUser(username, password)
 	if u.IsEmpty() {
-		c.JSON(200, gin.H{
-			"status": false,
-			"msg":    msg,
-			"data":   nil,
-		})
-	} else {
-		token, _ := utils.GenerateToken(jwt.MapClaims{
-			"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Server.TokenExpire)).Unix(),
-			"id":  u.ID,
-		})
-
-		responseUser := services.ResponseUser{}
-		c.JSON(200, gin.H{
-			"status": true,
-			"msg":    "success",
-			"data": map[string]interface{}{
-				"token": token,
-				"user":  responseUser.ToResponseUser(u),
-			},
-		})
+		utils.FalseResponse(c, msg)
+		return
 	}
+
+	token, _ := utils.GenerateToken(jwt.MapClaims{
+		"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Server.TokenExpire)).Unix(),
+		"id":  u.ID,
+	})
+	responseUser := services.ResponseUser{}
+	utils.TrueResponse(c, "success", map[string]interface{}{
+		"token": token,
+		"user":  responseUser.ToResponseUser(u),
+	})
 }
 
 /*
@@ -64,27 +56,20 @@ func Login(c *gin.Context) {
 	userService := services.ImplUser(&services.UserService{})
 	u := userService.FindByUserName(username)
 
-	if utils.CheckPasswordHash(u.Password, password) {
-		token, _ := utils.GenerateToken(jwt.MapClaims{
-			"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Server.TokenExpire)).Unix(),
-			"id":  u.ID,
-		})
-		responseUser := services.ResponseUser{}
-		c.JSON(200, gin.H{
-			"status": true,
-			"msg":    "success",
-			"data": map[string]interface{}{
-				"token": token,
-				"user":  responseUser.ToResponseUser(u),
-			},
-		})
-	} else {
-		c.JSON(200, gin.H{
-			"status": false,
-			"msg":    "账号或密码异常",
-			"data":   nil,
-		})
+	if !utils.CheckPasswordHash(u.Password, password) {
+		utils.FalseResponse(c, "账号或密码异常")
+		return
 	}
+
+	token, _ := utils.GenerateToken(jwt.MapClaims{
+		"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Server.TokenExpire)).Unix(),
+		"id":  u.ID,
+	})
+	responseUser := services.ResponseUser{}
+	utils.TrueResponse(c, "success", map[string]interface{}{
+		"token": token,
+		"user":  responseUser.ToResponseUser(u),
+	})
 }
 
 /*
@@ -99,6 +84,6 @@ func GetUserInfo(c *gin.Context) {
 		c.Abort()
 	} else {
 		responseUser := services.ResponseUser{}
-		c.JSON(200, responseUser.ToResponseUser(user.(entity.UserEntity)))
+		utils.TrueResponse(c, "success", responseUser.ToResponseUser(user.(entity.UserEntity)))
 	}
 }
