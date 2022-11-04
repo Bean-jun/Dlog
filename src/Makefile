@@ -1,4 +1,4 @@
-.PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run init
+.PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run init publish
 
 WRelease="Release.exe"
 LRelease="Release"
@@ -38,6 +38,9 @@ docker_clean:
 # 构建swagger
 init:
 	swag init
+
+publish:
+	python shell.py publish
 
 run:
 	@go run .

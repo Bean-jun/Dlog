@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/Bean-jun/Dlog/dao"
+	"github.com/Bean-jun/Dlog/router"
 
 	"github.com/Bean-jun/Dlog/pkg"
-	"github.com/Bean-jun/Dlog/router"
 )
 
 func InitEnv() {
