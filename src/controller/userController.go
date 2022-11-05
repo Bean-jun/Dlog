@@ -19,8 +19,8 @@ TODO:
 2. 接收更多参数
 */
 func Register(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+	username := utils.RsaDecryptFactory(c.PostForm("username"), pkg.Conf.Server.Cert.PrivateKey)
+	password := utils.RsaDecryptFactory(c.PostForm("password"), pkg.Conf.Server.Cert.PrivateKey)
 
 	userService := services.ImplUser(&services.UserService{})
 	u, msg := userService.AddUser(username, password)
@@ -44,13 +44,13 @@ func Register(c *gin.Context) {
 	Login
 
 TODO:
-1. 账号密码加密处理
+1. 账号密码加密处理 √
 2. 账号添加锁号功能
 3. 账号添加密码修改时间提醒
 4. 添加验证码功能
 */
 
-// @Schemes
+// Login @Schemes
 // @Description 用户登录
 // @Tags Login
 // @Accept mpfd
@@ -60,8 +60,8 @@ TODO:
 // @Success 200 {object}  utils.Response
 // @Router /api/v1/login [post]
 func Login(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+	username := utils.RsaDecryptFactory(c.PostForm("username"), pkg.Conf.Server.Cert.PrivateKey)
+	password := utils.RsaDecryptFactory(c.PostForm("password"), pkg.Conf.Server.Cert.PrivateKey)
 
 	userService := services.ImplUser(&services.UserService{})
 	u := userService.FindByUserName(username)

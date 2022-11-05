@@ -1,6 +1,10 @@
 package utils
 
-import "github.com/gin-gonic/gin"
+import (
+	"os"
+
+	"github.com/gin-gonic/gin"
+)
 
 type Response struct {
 	Status bool        `json:"status"`
@@ -22,4 +26,16 @@ func FalseResponse(c *gin.Context, msg string) {
 		Msg:    msg,
 		Data:   nil,
 	})
+}
+
+// WriteFile 写文件
+func WriteFile(filename string, content []byte) (err error) {
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		return err
+	}
+	if _, err = f.Write(content); err != nil {
+		return err
+	}
+	return nil
 }

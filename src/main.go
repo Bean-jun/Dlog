@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/Bean-jun/Dlog/dao"
@@ -12,6 +13,12 @@ import (
 func InitEnv() {
 	pkg.InitConfig("conf.yaml")
 	dao.InitDB()
+}
+
+func welcome() {
+	fmt.Println("\t\t--------------------------------")
+	fmt.Printf("\t\t|hello Dlog V%s|\n", pkg.Version)
+	fmt.Println("\t\t--------------------------------")
 }
 
 // @title Dlog
@@ -26,5 +33,6 @@ func InitEnv() {
 func main() {
 	InitEnv()
 	route := router.InitRouter()
+	welcome()
 	log.Fatal(route.Run(pkg.Conf.Server.Port))
 }

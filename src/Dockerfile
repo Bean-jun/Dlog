@@ -14,5 +14,6 @@ ENV     TZ Asia/ShangHai
 WORKDIR /data
 COPY    --from=builder /var/go_build/Dlog /data/
 COPY    conf.yaml /data/
+COPY    cert/ /data/cert/
 EXPOSE  9090
 CMD     [ "./Dlog" ]

@@ -10,15 +10,15 @@ const (
 	Version = "2022.11.04.6417e50"
 )
 
-func ParseVersion() int {
+func ParseVersion() (int, error) {
 	versionSlice := strings.Split(Version, ".")
 	if len(versionSlice) < 1 {
-		panic(errors.New("parse version failed"))
+		return -1, errors.New("parse version failed")
 	}
 	versionStr := strings.Join(versionSlice[:len(versionSlice)-1], "")
 	version, err := strconv.Atoi(versionStr)
 	if err != nil {
-		panic(err)
+		return -1, err
 	}
-	return version
+	return version, nil
 }

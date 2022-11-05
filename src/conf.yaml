@@ -3,6 +3,9 @@ server:
   secretKey: 0bd8f058bc3e97d203af4fcfd4094bf30e35ffe3e49f2e1b1faa1b45247a8e2f
   port: :9090
   token_expire: 1800
+  cert:
+    private: ./cert/private_key.pem
+    public: ./cert/public_key.pem
 mysql:
   username: dlog
   password: dlog
