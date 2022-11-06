@@ -15,7 +15,7 @@ func getRouter() *gin.Engine {
 	var engine *gin.Engine
 	if pkg.Conf.Debug {
 		engine = gin.Default()
-		engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+		engine.GET("/docs/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 		engine = gin.New()

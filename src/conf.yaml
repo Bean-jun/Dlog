@@ -29,11 +29,13 @@ db:
   mysql:
     username: dlog
     password: dlog
-    host: localhost
+    # 在docker中运行时填写 mysql
+    host: mysql
     port: 3306
     dbname: dlog
   redis:
     username:
-    password:
-    host: localhost
+    password: dlog
+    # 在docker中运行时填写 redis
+    host: redis
     port: 6379

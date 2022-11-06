@@ -6,6 +6,8 @@ COPY    . ${root}
 RUN     go env -w GO111MODULE=on\
         && go env -w GOPROXY=https://goproxy.cn,direct\
         && export CGO_ENABLED=0\
+        && export GOOS=linux\
+        && export GOARCH=amd64\
         && go build -o ${binFile} main.go
 
 
