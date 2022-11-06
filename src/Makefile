@@ -1,7 +1,7 @@
 .PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run init publish
 
-WRelease="Release.exe"
-LRelease="Release"
+WRelease="Dlog.exe"
+LRelease="Dlog"
 ReleaseFolder="Release"
 DockerName="dlog"
 version=$(shell git log -1 --format=%h)
@@ -10,10 +10,14 @@ all: build
 
 
 Init-linux-Env:
-	set CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+	set CGO_ENABLED=0
+	set GOOS=linux
+	set GOARCH=amd64
 
 Init-win-Env:
-	set CGO_ENABLED=0 GOOS=windows GOARCH=amd64
+	set CGO_ENABLED=0
+	set GOOS=windows
+	set GOARCH=amd64
 
 build-linux: Init-linux-Env
 	go build -o ${ReleaseFolder}/${LRelease}

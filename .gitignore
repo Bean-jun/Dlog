@@ -4,3 +4,11 @@
 Release/
 *.exe
 cert/
+Workspace/db/mysql
+Workspace/db/redis/*.rdb
+Workspace/db/redis/*.aof
+Workspace/logs
+Workspace/Proxy/html
+Workspace/Proxy/nginx/certs/*.crt
+Workspace/Proxy/nginx/certs/*.key
+__pycache__/
