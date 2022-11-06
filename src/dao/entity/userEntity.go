@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"reflect"
 	"time"
 
 	"gorm.io/gorm"
@@ -23,8 +22,4 @@ type UserEntity struct {
 
 func (u *UserEntity) TableName() string {
 	return "users"
-}
-
-func (u UserEntity) IsEmpty() bool {
-	return reflect.DeepEqual(u, UserEntity{})
 }

@@ -7,9 +7,9 @@ import (
 )
 
 type ImplUser interface {
-	FindByUserName(string) entity.UserEntity
-	FindByUserID(int) entity.UserEntity
-	AddUser(string, string) (entity.UserEntity, string)
+	FindByUserName(string) *entity.UserEntity
+	FindByUserID(int) *entity.UserEntity
+	AddUser(string, string) (*entity.UserEntity, string)
 }
 
 // ResponseUser 响应结构体
@@ -23,7 +23,7 @@ type ResponseUser struct {
 	Phone     string    `json:"phone"`
 }
 
-func (u *ResponseUser) ToResponseUser(userEntity entity.UserEntity) ResponseUser {
+func (u *ResponseUser) ToResponseUser(userEntity *entity.UserEntity) ResponseUser {
 	return ResponseUser{
 		Id:        userEntity.ID,
 		CreatedAt: userEntity.CreatedAt,

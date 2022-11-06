@@ -28,10 +28,20 @@ type server struct {
 	Cert        cert   `yaml:"cert"`
 }
 
+type account struct {
+	LoginErrNum                     int `yaml:"login_err_num"`
+	LoginErrTips                    int `yaml:"login_err_tips"`
+	LoginErrInterval                int `yaml:"login_err_interval"`
+	LoginErrLock                    int `yaml:"login_err_lock"`
+	AcountMaxNotActive              int `yaml:"acount_max_not_active"`
+	AcountMaxModifyPasswordInterval int `yaml:"acount_max_modify_password_interval"`
+}
+
 type Config struct {
-	Mysql    mysql  `yaml:"mysql"`
-	Server   server `yaml:"server"`
-	Debug    bool   `yaml:"debug"`
+	Mysql    mysql   `yaml:"mysql"`
+	Server   server  `yaml:"server"`
+	Account  account `yaml:"account"`
+	Debug    bool    `yaml:"debug"`
 	Version  int
 	RootPath string
 }
