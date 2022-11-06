@@ -1,10 +1,10 @@
-.PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run
+.PHONY: all Init-linux-Env Init-win-Env build-linux build-win build docker_build docker_run docker_stop docker_clean run init publish
 
 WRelease="Release.exe"
 LRelease="Release"
 ReleaseFolder="Release"
 DockerName="dlog"
-version=$(shell git log --format=%h)
+version=$(shell git log -1 --format=%h)
 
 all: build
 
@@ -34,6 +34,13 @@ docker_stop:
 
 docker_clean:
 	docker rm -f ${DockerName}
+
+# 构建swagger
+init:
+	swag init
+
+publish:
+	python shell.py publish
 
 run:
 	@go run .
