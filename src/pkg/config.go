@@ -14,6 +14,18 @@ type mysql struct {
 	Dbname   string `yaml:"dbname"`
 }
 
+type redis struct {
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+}
+
+type db struct {
+	Mysql mysql `yaml:"mysql"`
+	Redis redis `yaml:"redis"`
+}
+
 type cert struct {
 	Private    string `yaml:"private"`
 	PrivateKey []byte
@@ -22,13 +34,14 @@ type cert struct {
 }
 
 type server struct {
-	SecretKey   string `yaml:"secretKey"`
-	Port        string `yaml:"port"`
-	TokenExpire int    `yaml:"token_expire"`
-	Cert        cert   `yaml:"cert"`
+	SecretKey string `yaml:"secretKey"`
+	Port      string `yaml:"port"`
+	Cert      cert   `yaml:"cert"`
 }
 
 type account struct {
+	TokenExpire                     int `yaml:"token_expire"`
+	VerifyCodeExpire                int `yaml:"verify_code_expire"`
 	LoginErrNum                     int `yaml:"login_err_num"`
 	LoginErrTips                    int `yaml:"login_err_tips"`
 	LoginErrInterval                int `yaml:"login_err_interval"`
@@ -38,9 +51,9 @@ type account struct {
 }
 
 type Config struct {
-	Mysql    mysql   `yaml:"mysql"`
 	Server   server  `yaml:"server"`
 	Account  account `yaml:"account"`
+	DB       db      `yaml:"db"`
 	Debug    bool    `yaml:"debug"`
 	Version  int
 	RootPath string

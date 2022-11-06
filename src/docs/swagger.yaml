@@ -20,6 +20,20 @@ info:
   title: Dlog
   version: "1.0"
 paths:
+  /api/v1/getCaptcha:
+    get:
+      consumes:
+      - application/json
+      description: 获取验证码
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      tags:
+      - GetCaptcha
   /api/v1/login:
     post:
       consumes:

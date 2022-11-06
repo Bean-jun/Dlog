@@ -31,6 +31,7 @@ func InitRouter() *gin.Engine {
 		api.POST("/login", controller.Login)
 		api.POST("/register", controller.Register)
 		api.GET("/userinfo", middleware.Auth(), controller.GetUserInfo)
+		api.GET("/getCaptcha", controller.GetCaptcha)
 	}
 	return e
 }

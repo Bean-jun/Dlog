@@ -23,7 +23,13 @@ TODO:
 func Register(c *gin.Context) {
 	username := utils.RsaDecryptFactory(c.PostForm("username"), pkg.Conf.Server.Cert.PrivateKey)
 	password := utils.RsaDecryptFactory(c.PostForm("password"), pkg.Conf.Server.Cert.PrivateKey)
+	code := c.PostForm("code")
+	verifyCode := c.PostForm("verify_code")
 
+	if ok := utils.VerifyCode(dao.RDB, code, verifyCode); !ok {
+		utils.FalseResponse(c, "验证码错误")
+		return
+	}
 	userService := services.ImplUser(&services.UserService{})
 	u, msg := userService.AddUser(username, password)
 	if u == nil {
@@ -32,7 +38,7 @@ func Register(c *gin.Context) {
 	}
 
 	token, _ := utils.GenerateToken(jwt.MapClaims{
-		"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Server.TokenExpire)).Unix(),
+		"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Account.TokenExpire)).Unix(),
 		"id":  u.ID,
 	})
 	responseUser := services.ResponseUser{}
@@ -47,9 +53,9 @@ func Register(c *gin.Context) {
 
 TODO:
 1. 账号密码加密处理 √
-2. 账号添加锁号功能
-3. 账号添加密码修改时间提醒
-4. 添加验证码功能
+2. 账号添加锁号功能 √
+3. 账号添加密码修改时间提醒 √
+4. 添加验证码功能 √
 */
 
 // Login @Schemes
@@ -64,6 +70,13 @@ TODO:
 func Login(c *gin.Context) {
 	username := utils.RsaDecryptFactory(c.PostForm("username"), pkg.Conf.Server.Cert.PrivateKey)
 	password := utils.RsaDecryptFactory(c.PostForm("password"), pkg.Conf.Server.Cert.PrivateKey)
+	code := c.PostForm("code")
+	verifyCode := c.PostForm("verify_code")
+
+	if ok := utils.VerifyCode(dao.RDB, code, verifyCode); !ok {
+		utils.FalseResponse(c, "验证码错误")
+		return
+	}
 
 	userService := services.ImplUser(&services.UserService{})
 	u := userService.FindByUserName(username)
@@ -143,7 +156,7 @@ func Login(c *gin.Context) {
 	}
 
 	token, _ := utils.GenerateToken(jwt.MapClaims{
-		"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Server.TokenExpire)).Unix(),
+		"exp": time.Now().Add(time.Second * time.Duration(pkg.Conf.Account.TokenExpire)).Unix(),
 		"id":  u.ID,
 	})
 
