@@ -34,7 +34,10 @@ func TestRsaEncryptDecrypt(t *testing.T) {
 		keyBytes: pkg.Conf.Server.Cert.PublicKey,
 	}
 
-	encryData := RsaEncrypt(encryTest.data, encryTest.keyBytes)
+	encryData, err := RsaEncrypt(encryTest.data, encryTest.keyBytes)
+	if err != nil {
+		panic(err)
+	}
 	log.Println("加密后密文为:", hex.EncodeToString(encryData))
 
 	decryTest := struct {
@@ -44,7 +47,10 @@ func TestRsaEncryptDecrypt(t *testing.T) {
 		data:     encryData,
 		keyBytes: pkg.Conf.Server.Cert.PrivateKey,
 	}
-	decryData := RsaDecrypt(decryTest.data, decryTest.keyBytes)
+	decryData, err := RsaDecrypt(decryTest.data, decryTest.keyBytes)
+	if err != nil {
+		panic(err)
+	}
 	log.Println("解密后明文为:", string(decryData))
 
 	if content != string(decryData) {
