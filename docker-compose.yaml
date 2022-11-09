@@ -12,6 +12,7 @@ services:
     restart: always
     networks:
       - server_network
+    command: sh -c "dockerize -wait tcp://mysql:3306 -timeout 300s -wait-retry-interval 30s ./Dlog"
     ports:
       - 9090:9090
   redis:
