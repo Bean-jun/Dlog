@@ -1,0 +1,41 @@
+debug: true
+server:
+  # 秘钥
+  secretKey: 0bd8f058bc3e97d203af4fcfd4094bf30e35ffe3e49f2e1b1faa1b45247a8e2f
+  # 端口
+  port: :9090
+  # 证书
+  cert:
+    private: ./cert/private_key.pem
+    public: ./cert/public_key.pem
+account:
+  # token过期时间 60*30 30分钟
+  token_expire: 1800
+  # 验证码过期时间 30秒
+  verify_code_expire: 30
+  # 登录尝试错误次数
+  login_err_num: 5
+  # 登录错误次数提醒
+  login_err_tips: 3
+  # 登录尝试错误间隔 60*5 5分钟
+  login_err_interval: 300
+  # 登录错误锁定时长 60*30 30分钟
+  login_err_lock: 1800
+  # 账户不活跃时长 60*60*24*180 180天[15552000] -1:无限制
+  acount_max_not_active: 15552000
+  # 账户最大修改密码间隔 60*60*24*30 30天[2592000] -1:无限制
+  acount_max_modify_password_interval: 2592000
+db:
+  mysql:
+    username: dlog
+    password: dlog
+    # 在docker中运行时填写 mysql
+    host: mysql
+    port: 3306
+    dbname: dlog
+  redis:
+    username:
+    password: dlog
+    # 在docker中运行时填写 redis
+    host: redis
+    port: 6379

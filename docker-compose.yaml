@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  dlog:
+    image: dlog:latest
+    build: src
+    volumes:
+      - ./Workspace/logs/backend:/data/logs
+    depends_on:
+      - redis
+      - mysql
+    restart: always
+    networks:
+      - server_network
+    command: sh -c "dockerize -wait tcp://mysql:3306 -timeout 300s -wait-retry-interval 30s ./Dlog"
+    ports:
+      - 9090:9090
+  redis:
+    image: redis:latest
+    command: redis-server /data/redis.conf
+    restart: always
+    volumes:
+      - ./Workspace/db/redis:/data
+    networks:
+      - server_network
+    ports:
+      - 6379:6379
+  mysql:
+    # image: mysql:8.0.31
+    image: mysql:latest
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dlog
+      MYSQL_DATABASE: dlog
+      MYSQL_USER: dlog
+      MYSQL_PASSWORD: dlog
+    healthcheck:
+      test:
+        [ "CMD","mysqladmin","ping","-h","127.0.0.1","--silent" ]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ./Workspace/db/mysql:/var/lib/mysql
+    networks:
+      - server_network
+    ports:
+      - 3306:3306
+  Proxy:
+    image: proxy:latest
+    build: Workspace/Proxy
+    volumes:
+      - ./Workspace/logs/proxy:/var/log/nginx
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - dlog
+    networks:
+      - server_network
+networks:
+  server_network:
+    driver: bridge
